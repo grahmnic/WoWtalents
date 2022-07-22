@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="183.66mm" height="217.16mm" version="1.1" viewBox="0 0 183.66 217.16" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <clipPath id="clipPath3535">
+   <rect x="26.32" y="-.16071" width="183.66" height="217.16" fill="#f00" opacity=".58" stroke-width=".26458"/>
+  </clipPath>
+  <clipPath id="clipPath3539">
+   <rect x="99.479" y="-.60742" width="694.14" height="820.76" fill="#f00" opacity=".58"/>
+  </clipPath>
+  <clipPath id="clipPath3543">
+   <rect x="26.32" y="-.16071" width="183.66" height="217.16" fill="#f00" opacity=".58" stroke-width=".26458"/>
+  </clipPath>
+  <clipPath id="clipPath3547">
+   <rect x="26.32" y="-.16071" width="183.66" height="217.16" fill="#f00" opacity=".58" stroke-width=".26458"/>
+  </clipPath>
+  <clipPath id="clipPath3551">
+   <rect x="26.32" y="-.16071" width="183.66" height="217.16" fill="#f00" opacity=".58" stroke-width=".26458"/>
+  </clipPath>
+  <clipPath id="clipPath3555">
+   <rect x="26.32" y="-.16071" width="183.66" height="217.16" fill="#f00" opacity=".58" stroke-width=".26458"/>
+  </clipPath>
+  <clipPath id="clipPath3559">
+   <rect x="26.32" y="-.16071" width="183.66" height="217.16" fill="#f00" opacity=".58" stroke-width=".26458"/>
+  </clipPath>
+  <clipPath id="clipPath3563">
+   <rect x="26.32" y="-.16071" width="183.66" height="217.16" fill="#f00" opacity=".58" stroke-width=".26458"/>
+  </clipPath>
+  <clipPath id="clipPath4350">
+   <rect x="90.428" y="20.776" width="186.99" height="88.555" fill="#f00" stroke-width=".26458"/>
+  </clipPath>
+ </defs>
+ <g transform="translate(-26.32 .16071)">
+  <path d="m104.73 115v-20h105.24v40h-105.24z" clip-path="url(#clipPath3563)" fill="#fff" stroke-width=".17458"/>
+  <path d="m25.204 84.808v-8.8555h60.967v7.4931h123.98v10.218h-184.94z" clip-path="url(#clipPath3559)" fill="#fff" stroke-width=".3406"/>
+  <rect x="89.236" y="152.93" width="120.57" height="7.4931" clip-path="url(#clipPath3555)" fill="none" stroke-width=".26458"/>
+  <path d="m104.73 156v-20h105.24v40h-105.24z" clip-path="url(#clipPath3551)" fill="#fff" stroke-width=".17458"/>
+  <path d="m104.73 197v-20h105.24v40h-105.24z" clip-path="url(#clipPath3547)" fill="#fff" stroke-width=".17458"/>
+  <path d="m86.171 75.953c-61.307 0-58.242-6.8119-56.198-7.1525" clip-path="url(#clipPath3543)" fill="none" stroke="#000" stroke-width=".26458px"/>
+  <g fill="#fff">
+   <path transform="scale(.26458)" d="m99.479-0.60742c-11.411 0-20.598 9.1871-20.598 20.598v3.8613h206.7c9.3817 0 16.934 7.5538 16.934 16.936v180.43c0 9.3817-7.5519 16.934-16.934 16.934h-206.7v1.2871c0 11.411 9.1871 20.598 20.598 20.598h205.61c11.411 0 20.598-9.1871 20.598-20.598v-219.45c0-11.411-9.1871-20.598-20.598-20.598z" clip-path="url(#clipPath3539)" stroke-width="3.8409"/>
+   <path d="m23.671 71.808v-6.0729h2.3676c1.9611 0 2.3233 0.15397 2.1099 0.89699-0.4182 1.4559 1.4988 3.598 4.3572 4.8687 6.3526 2.8242 17.279 4.6557 35.758 5.9937 1.3096 0.09483-8.1879 0.22056-21.106 0.27941l-23.487 0.10699z" clip-path="url(#clipPath3535)" stroke-width=".5004"/>
+   <path transform="translate(-132.49 70.844)" d="m261.66-43.783a82.34 59.357 0 0 0-82.339 59.357 82.34 59.357 0 0 0 82.339 59.358 82.34 59.357 0 0 0 82.34-59.358 82.34 59.357 0 0 0-82.34-59.357zm-0.33969 3.4334a77.916 56.169 0 0 1 77.916 56.169 77.916 56.169 0 0 1-77.916 56.168 77.916 56.169 0 0 1-77.917-56.168 77.916 56.169 0 0 1 77.917-56.169z" clip-path="url(#clipPath4350)" stroke-width=".44883"/>
+  </g>
+ </g>
+</svg>
