@@ -4,8 +4,19 @@ import { HYDRATE } from 'next-redux-wrapper';
 import jwt_decode from 'jwt-decode';
 import APIClient from '../../helpers/apiClient';
 import config from '../../config';
+import { IRootState } from '../store';
 
-export const initialState: any = {
+interface IAuthState {
+    authenticated: boolean;
+    user: string;
+    isAdmin: boolean;
+    showLoginModal: boolean;
+    loginError: any;
+    cookies: any;
+    loaded: boolean;
+}
+
+export const initialState: IAuthState = {
   authenticated: false,
   user: '',
   isAdmin: false,
@@ -112,13 +123,13 @@ export const auth = createSlice({
         state.cookies = action.payload;
     }),
     builder.addCase(auth_load.rejected, (state, action) => {
-        state.error = action.error;
+        state.loginError = action.error;
     }),
     builder.addCase(login.rejected, (state, action) => {
-        state.error = action.error;
+        state.loginError = action.error;
     }),
     builder.addCase(get_cookies.rejected, (state, action) => {
-        state.error = action.error;
+        state.loginError = action.error;
     })
   }
 });
@@ -129,8 +140,6 @@ export const {
 } = auth.actions;
 
  // Selectors
-export const selectAuthenticated = state => state.auth.authenticated;
-export const selectRole = state => state.auth.isAdmin;
-export const selectAuth = state => state.auth;
+export const selectAuthenticated = (state: IRootState) => state.auth
 
 export default auth.reducer

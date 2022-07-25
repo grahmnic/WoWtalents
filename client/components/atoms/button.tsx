@@ -20,6 +20,8 @@ const B = styled.button`
     outline: none;
     border: none;
     cursor: pointer;
+    background: none;
+    padding: 0;
 `;
 
 export default Button;

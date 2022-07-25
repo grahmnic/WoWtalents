@@ -12,10 +12,10 @@ interface IFlexContainer extends BaseElement {
 const FlexContainer = (props: IFlexContainer) => {
     const {
         spaceBetween = 0,
-        justifyContent = "start",
-        alignItems = "start",
+        justifyContent = "center",
+        alignItems = "center",
         flexWrap = "nowrap",
-        flexDirection = "column",
+        flexDirection = "row",
         className,
         children
     } = props;
@@ -38,12 +38,7 @@ const F = styled.div<{ spaceBetween?: number, justifyContent?: string, alignItem
     align-items: ${p => p.alignItems};
     flex-wrap: ${p => p.flexWrap};
     flex-direction: ${p => p.flexDirection};
-
-    > {
-        &:not(:last-child) {
-            margin-${p => p.flexDirection === 'row' ? 'right' : 'bottom'}: ${p => p.spaceBetween}px;
-        }
-    }
+    gap: ${p => p.spaceBetween}px;
 `;
 
 export default FlexContainer;

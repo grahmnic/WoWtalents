@@ -6,11 +6,11 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: Verdana,"Open Sans",Arial,"Helvetica Neue",Helvetica,sans-serif;
 }
 
 input, button {
-  font-family: 'Lato', sans-serif;
+  font-family: Verdana,"Open Sans",Arial,"Helvetica Neue",Helvetica,sans-serif;
 }
 
 a {

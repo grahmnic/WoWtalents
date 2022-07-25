@@ -4,7 +4,8 @@ export const COLOR = {
     LIGHTGREY: '#E6E6E6',
     GREY: '#D3D3D3',
     DARKGREY: '#696969',
-    ERROR: '#B00020'
+    ERROR: '#B00020',
+    INDIGO: '#02071B'
 }
 
 

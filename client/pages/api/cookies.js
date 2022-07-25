@@ -2,5 +2,5 @@
 import { getCookies } from 'cookies-next';
 
 export default async function handler(req, res) {
-  return res.json(getCookies({ req, res}));
+  return res.json(getCookies({ req, res }));
 }

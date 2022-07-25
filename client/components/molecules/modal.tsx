@@ -24,7 +24,7 @@ export const ModalWrapper = styled(FlexContainer)<{ isMobile: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.75);
   z-index: 200;
 `;
 

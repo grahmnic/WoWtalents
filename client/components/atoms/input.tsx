@@ -4,6 +4,7 @@ import { COLOR } from '../../theme/constants';
 
 export interface IInput extends BaseElement {
   placeholder?: string,
+  name?: string;
   setFocus?: any,
   value?: string,
   setValue?: any,
@@ -11,13 +12,7 @@ export interface IInput extends BaseElement {
 }
 
 const TextInput: React.FC<IInput> = (props) => {
-  const { placeholder, type = 'text', setFocus, value, setValue, className } = props;
-
-    const handleChange = (e) => {
-        if (setValue) {
-            setValue(e.target.value);
-        }
-    }
+  const { placeholder, name, type = 'text', setFocus, value, setValue, className } = props;
 
     const handleFocus = (val) => {
         if (setFocus) {
@@ -28,8 +23,9 @@ const TextInput: React.FC<IInput> = (props) => {
     return (
         <Input
             type={type}
+            name={name}
             value={value}
-            onChange={handleChange}
+            onChange={setValue}
             onFocus={() => handleFocus(true)}
             onBlur={() => handleFocus(false)}
             placeholder={placeholder}
@@ -39,7 +35,7 @@ const TextInput: React.FC<IInput> = (props) => {
 }
 
 export const Input = styled.input`
-  border:none;
+  border: none;
   background: transparent;
   &:focus {
     background: transparent;
