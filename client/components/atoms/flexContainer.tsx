@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface IFlexContainer extends BaseElement {
+interface IFlexContainer extends BaseComponent {
     spaceBetween?: number;
     justifyContent?: string;
     alignItems?: string;

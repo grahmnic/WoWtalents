@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface IList extends BaseElement {
+interface IList extends BaseComponent {
   orientation?: 'vertical' | 'horizontal';
   customScrollbar?: any;
   customScrollbarProps?: any;

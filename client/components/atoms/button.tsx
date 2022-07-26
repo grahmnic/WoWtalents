@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface IButton extends BaseElement {
+interface IButton extends BaseComponent {
     callback?: any;
 }
 
 const Button = (props: IButton) => {
-    const { callback, className, children } = props;
+    const { callback, disabled, className, children } = props;
 
     return (
         <B
+            disabled={disabled}
             onClick={() => callback()}
             className={className}
         >{children}</B>

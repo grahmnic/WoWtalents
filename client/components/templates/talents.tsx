@@ -23,9 +23,8 @@ const Talents = (props) => {
     useOnClickOutside(ref, () => dispatch(setActiveTalent(null)));
 
     const talents = loaded ? talentList.map((talent, index) =>
-        <TalentButton callback={() => dispatch(setActiveTalent(talent.id))}>
+        <TalentButton key={index} callback={() => dispatch(setActiveTalent(talent.id))}>
             <Talent
-                key={index}
                 thumbnailUrl={icons[talent.fileId].value}
                 {...talent}/>
         </TalentButton>) : null;

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../theme/constants';
 
-export interface IInput extends BaseElement {
+export interface IInput extends BaseComponent {
   placeholder?: string,
   name?: string;
   setFocus?: any,

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLOR, TYPOGRAPHY } from '../../theme/constants';
 
-interface IParagraph extends BaseElement {
+interface IParagraph extends BaseComponent {
 
 }
 

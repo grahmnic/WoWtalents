@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import FlexContainer from '../atoms/flexContainer';
 import Subtitle from '../atoms/subtitle';
 
-interface ITalentTooltip extends Talent {
+interface ITalentTooltip extends Talent, BaseComponent {
 
 }
 

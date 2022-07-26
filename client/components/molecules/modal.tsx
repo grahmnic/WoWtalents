@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import FlexContainer from '../atoms/flexContainer';
 
-interface IModal extends BaseElement {
+interface IModal extends BaseComponent {
   isMobile?: boolean
 }
 

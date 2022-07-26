@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface IAnchor extends BaseElement {
+interface IAnchor extends BaseComponent {
     href: string;
     target?: string;
     textDecoration?: string;

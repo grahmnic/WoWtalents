@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { COLOR } from '../../theme/constants';
 
-interface IAnchor extends BaseElement {
+interface IAnchor extends BaseComponent {
     width?: number;
     height?: number;
     backgroundColor?: string;

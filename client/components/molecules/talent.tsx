@@ -4,7 +4,7 @@ import Img from '../atoms/img';
 import TalentTooltip from './talentTooltip';
 import PopperTooltip from './tooltip/popperTooltip';
 
-interface ITalent extends Talent {
+interface ITalent extends Talent, BaseComponent {
     thumbnailUrl: string;
 }
 

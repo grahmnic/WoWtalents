@@ -2,6 +2,7 @@ export {};
 
 declare global {
   interface BaseComponent {
+    disabled?: boolean;
     children?: React.ReactNode;
     className?: string;
     ref?: any;
