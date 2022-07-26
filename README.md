@@ -1,6 +1,6 @@
-NextJS frontend using redux to manage auth state.
-CMS route will build posts by using ReactDOMServer to convert templates to html with embedded tailwind classes. Templates are saved as JSON.
-Express API using jwt/passport for auth.
+NextJS frontend using redux and atomic design w/ styled components.
+Express API with DI pattern using awilix.
+JWT/passport auth.
 
 AUTH FLOW:
 1. csrf token is fetched
@@ -12,7 +12,15 @@ AUTH FLOW:
 7. cookies are again fetched/loaded into redux/auth loads again and sees access token
 
 TODO:
-- test post using tailwind
-- cms
-- refresh tokens + rotation
-- rate limit api
+- blp texture mappings
+- in-tooltip editor
+- talent tree(s)
+- choice nodes
+- tree backgrounds
+- add new talents
+- talent ranks
+- export loadouts to passcodes
+- pre-existing class templates
+- spell damage summary ratios
+- save loadouts to storage
+- custom resource types
