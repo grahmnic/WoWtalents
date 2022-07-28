@@ -23,6 +23,7 @@ const B = styled.button`
     cursor: pointer;
     background: none;
     padding: 0;
+    text-align: left;
 `;
 
 export default Button;

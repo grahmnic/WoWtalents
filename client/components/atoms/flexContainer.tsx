@@ -5,7 +5,7 @@ interface IFlexContainer extends BaseComponent {
     spaceBetween?: number;
     justifyContent?: string;
     alignItems?: string;
-    flexWrap?: string;
+    flexWrap?: boolean;
     flexDirection?: "row" | "column";
 }
 
@@ -14,7 +14,7 @@ const FlexContainer = (props: IFlexContainer) => {
         spaceBetween = 0,
         justifyContent = "center",
         alignItems = "center",
-        flexWrap = "nowrap",
+        flexWrap = false,
         flexDirection = "row",
         className,
         children
@@ -32,11 +32,11 @@ const FlexContainer = (props: IFlexContainer) => {
     )
 }
 
-const F = styled.div<{ spaceBetween?: number, justifyContent?: string, alignItems?: string, flexWrap?: string, flexDirection?: string }>`
+const F = styled.div<{ spaceBetween?: number, justifyContent?: string, alignItems?: string, flexWrap?: boolean, flexDirection?: string }>`
     display: flex;
     justify-content: ${p => p.justifyContent};
     align-items: ${p => p.alignItems};
-    flex-wrap: ${p => p.flexWrap};
+    flex-wrap: ${p => p.flexWrap ? 'wrap' : 'nowrap'};
     flex-direction: ${p => p.flexDirection};
     gap: ${p => p.spaceBetween}px;
 `;

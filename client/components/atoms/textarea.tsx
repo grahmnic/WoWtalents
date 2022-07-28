@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import { COLOR } from '../../theme/constants';
 
-export interface IInput extends BaseComponent {
+export interface ITextArea extends BaseComponent {
   placeholder?: string,
   name?: string;
   setFocus?: any,
   value?: string | number,
   setValue?: any,
-  type?: string,
+  rows?: number,
+  cols?: number
 }
 
-const TextInput: React.FC<IInput> = (props) => {
-  const { placeholder, name, type = 'text', setFocus, value, setValue, className } = props;
+const TextArea: React.FC<ITextArea> = (props) => {
+  const { placeholder, name, rows, cols, setFocus, value, setValue, className } = props;
 
     const handleFocus = (val) => {
         if (setFocus) {
@@ -21,8 +21,9 @@ const TextInput: React.FC<IInput> = (props) => {
     }
 
     return (
-        <Input
-            type={type}
+        <TA
+            rows={rows}
+            cols={cols}
             name={name}
             value={value}
             onChange={setValue}
@@ -34,7 +35,7 @@ const TextInput: React.FC<IInput> = (props) => {
     );
 }
 
-export const Input = styled.input`
+export const TA = styled.textarea`
   border: none;
   background: transparent;
 
@@ -56,4 +57,4 @@ export const Input = styled.input`
   }
 `;
 
-export default TextInput;
+export default TextArea;

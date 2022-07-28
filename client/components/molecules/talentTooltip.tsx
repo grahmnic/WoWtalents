@@ -3,21 +3,19 @@ import styled from 'styled-components';
 import FlexContainer from '../atoms/flexContainer';
 import Subtitle from '../atoms/subtitle';
 
-interface ITalentTooltip extends Talent, BaseComponent {
+interface ITalentTooltip extends TalentDraft, BaseComponent {
 
 }
 
 const Talent = (props: ITalentTooltip) => {
-    const { label, summary, ranks, isActive, cost, cooldown, castTime, charges, resource, minRange, maxRange } = props;
+    const { label, summary, ranks, isActive, cost, cooldown, castTime, charges, resource, minRange, maxRange, className } = props;
 
     const talentCost = cost ? `${cost}${(() => {
         switch(resource) {
             case `mana`:
                 return '% of base mana';
-            case `energy`:
-                return ' energy';
             default:
-                return ' % of base mana';
+                return ` ${resource}`;
         }
     })()}` : null;
 
@@ -40,7 +38,7 @@ const Talent = (props: ITalentTooltip) => {
     const talentCharges = charges && charges > 0 && `${charges} charges`
 
     return (
-        <TalentTooltipContainer>
+        <TalentTooltipContainer className={className}>
             <TalentTooltipBody>
                 <TalentTooltipContent flexDirection="column" justifyContent="start" alignItems="start" spaceBetween={2}>
                     <TalentTooltipLabel>{label}</TalentTooltipLabel>

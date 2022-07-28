@@ -23,4 +23,19 @@ declare global {
     maxRange?: number;
     charges?: number;
   }
+
+  interface TalentDraft {
+    label: string;
+    fileId: string;
+    summary: string;
+    ranks: number;
+    isActive: boolean;
+    cost?: number;
+    resource?: string;
+    castTime?: number;
+    cooldown?: number;
+    minRange?: number;
+    maxRange?: number;
+    charges?: number;
+  }
 }

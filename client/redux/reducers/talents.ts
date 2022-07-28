@@ -88,8 +88,12 @@ export const talents = createSlice({
       let icons = {};
       let lookup = {};
       action.payload.forEach((icon) => {
-        icons[icon.file_data_id.toString()] = icon;
-        lookup[icon.value] = icon;
+        icons[icon.file_data_id.toString()] = {
+          value: icon.value
+        };
+        lookup[icon.value] = {
+          file_data_id: icon.file_data_id
+        };
       });
       state.icons = icons;
       state.lookup = lookup;
