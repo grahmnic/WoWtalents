@@ -8,9 +8,9 @@ interface ITalentTooltip extends TalentDraft, BaseComponent {
 }
 
 const Talent = (props: ITalentTooltip) => {
-    const { label, summary, ranks, isActive, cost, cooldown, castTime, charges, resource, minRange, maxRange, className } = props;
+    const { label, summary, ranks, isActive, cost, cooldown, isMelee, castTime, charges, resource, minRange, maxRange, className } = props;
 
-    const talentCost = cost ? `${cost}${(() => {
+    const talentCost = cost && resource && resource.length ? `${cost}${(() => {
         switch(resource) {
             case `mana`:
                 return '% of base mana';
@@ -19,11 +19,11 @@ const Talent = (props: ITalentTooltip) => {
         }
     })()}` : null;
 
-    const talentRange = maxRange ?
+    let talentRange = !isMelee ? (maxRange ?
         (minRange ?
             `${minRange} - ${maxRange} yd range` :
             `${maxRange} yd range`)
-        : null;
+        : null): 'Melee Range';
 
     const talentCastTime = castTime > 0 ? `${castTime} sec cast` : 'Instant';
 

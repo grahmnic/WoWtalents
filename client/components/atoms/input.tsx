@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { isEmptyStatement } from 'typescript';
 import { COLOR } from '../../theme/constants';
 
 export interface IInput extends BaseComponent {
@@ -24,7 +25,7 @@ const TextInput: React.FC<IInput> = (props) => {
         <Input
             type={type}
             name={name}
-            value={value}
+            value={type === 'number' && value && value.toString().length ? Number(value).toString() : value}
             onChange={setValue}
             onFocus={() => handleFocus(true)}
             onBlur={() => handleFocus(false)}
@@ -37,6 +38,7 @@ const TextInput: React.FC<IInput> = (props) => {
 export const Input = styled.input`
   border: none;
   background: transparent;
+  background-color: transparent;
 
   &:focus {
     border: none;

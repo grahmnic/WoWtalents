@@ -19,6 +19,7 @@ declare global {
     resource?: string;
     castTime?: number;
     cooldown?: number;
+    isMelee?: boolean;
     minRange?: number;
     maxRange?: number;
     charges?: number;
@@ -34,6 +35,7 @@ declare global {
     resource?: string;
     castTime?: number;
     cooldown?: number;
+    isMelee?: boolean;
     minRange?: number;
     maxRange?: number;
     charges?: number;

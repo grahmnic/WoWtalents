@@ -6,13 +6,17 @@ import TextInput from '../atoms/input';
 import FlexContainer from '../atoms/flexContainer';
 import { COLOR } from '../../theme/constants';
 import Button from '../atoms/button';
+import { TalentWrapper } from './talent';
+import PopperTooltip from './tooltip/popperTooltip';
+import Subtitle from '../atoms/subtitle';
 
 interface IIconSelector extends BaseComponent {
     callback: any;
+    selectedId: string;
 }
 
 const IconSelector = (props: IIconSelector) => {
-    const { callback } = props;
+    const { callback, selectedId } = props;
 
     const [search, setSearch] = useState('');
 
@@ -20,10 +24,14 @@ const IconSelector = (props: IIconSelector) => {
 
     const { lookup: icons } = useSelector(selectTalents);
 
-    const pattern = new RegExp(search, 'g');
+    const pattern = new RegExp(search.toLocaleLowerCase(), 'g');
 
-    const filteredIcons = Object.keys(icons).filter((url) => pattern.test(url)).slice(0, 85).map((url) =>
-        <Icon key={url} url={url} callback={() => callback(icons[url].file_data_id)}/>
+    const filteredIcons = Object.keys(icons).filter((url) => pattern.test(url)).slice(0, 75).map((url) =>
+        <Icon key={url} selected={icons[url].file_data_id == selectedId} callback={() => callback(icons[url].file_data_id.toString())}>
+            <PopperTooltip target={<TalentWrapper src={url} isActive />} skid={-8} placement={'auto'} showArrow={false}>
+                <IconTooltip>{url.split('/').pop().split('.')[0]}</IconTooltip>
+            </PopperTooltip>
+        </Icon>
     );
 
     return (
@@ -40,9 +48,9 @@ export default IconSelector;
 
 /*-----------------STYLES-----------------*/
 const IconSelectorContainer = styled.div`
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
     padding: 12px;
-    width: 650px;
+    width: 400px;
 `;
 
 const IconSelectorSearch = styled(TextInput)`
@@ -53,14 +61,19 @@ const IconSelectorSearch = styled(TextInput)`
     padding: 4px;
 `;
 
-const Icon = styled(Button)<{ url: string }>`
+const Icon = styled(Button)<{ selected: boolean; }>`
     width: 32px;
     height: 32px;
-    background: url(${p => p.url});
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    border-radius: 4px;
+    ${p => p.selected ? `
+        border: 2px solid yellow;
+    `: ''}
+`;
+
+const IconTooltip = styled(Subtitle)`
+    color: ${COLOR.WHITE};
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 4px;
 `;
 
 const IconSelectorGrid = styled(FlexContainer)``;

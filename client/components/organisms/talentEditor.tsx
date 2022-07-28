@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { setActiveTalent, updateTalent } from '../../redux/reducers/talents';
+import useOnClickOutside from '../../helpers/hooks/useOnClickOutside';
+import { isEmpty } from '../../helpers/isEmpty';
+import { removeTalent, selectTalents, setActiveTalent, updateTalent } from '../../redux/reducers/talents';
 import { COLOR } from '../../theme/constants';
 import Button from '../atoms/button';
 import Checkbox, { CHECKED, UNCHECKED } from '../atoms/checkbox';
@@ -10,7 +12,9 @@ import TextInput from '../atoms/input';
 import Subtitle from '../atoms/subtitle';
 import TextArea from '../atoms/textarea';
 import IconSelector from '../molecules/iconSelector';
+import { TalentWrapper } from '../molecules/talent';
 import TalentTooltip, { TooltipWrapper } from '../molecules/talentTooltip';
+import PopperTooltip from '../molecules/tooltip/popperTooltip';
 
 interface ITalentEditor extends TalentDraft {
     id: string;
@@ -27,6 +31,7 @@ const iterator: TalentDraft = {
     castTime: 0,
     charges: 0,
     resource: '',
+    isMelee: false,
     minRange: 0,
     maxRange: 0
 }
@@ -34,20 +39,22 @@ const iterator: TalentDraft = {
 const TalentEditor = (props: ITalentEditor) => {
     const { id } = props;
 
-    const isEmpty = (v: string) => v == null || v.length == 0;
-
     const checkValidity = (key, val) => {
         switch(key) {
             case 'label':
                 return !isEmpty(val);
+            case 'summary':
+                return !isEmpty(val);
+            case 'fileId':
+                return !isEmpty(val);
             case 'resource':
                 return true;
             case 'cost':
-                return !isNaN(val) || !values.isActive;
+                return (val == null || (!isNaN(val) && (val == 0 || !isEmpty(values.resource)))) || !values.isActive;
             case 'minRange':
-                return !isNaN(val) || !values.isActive;
+                return ((val == null || (!isNaN(val) && (val == 0 || (values.maxRange !== null && !isNaN(values.maxRange) && values.maxRange > val)))) || !values.isActive) || values.isMelee;
             case 'maxRange':
-                return !isNaN(val) || !values.isActive;
+                return !isNaN(val) || !values.isActive || values.isMelee;
             case 'castTime':
                 return !isNaN(val) || !values.isActive;
             case 'cooldown':
@@ -56,14 +63,22 @@ const TalentEditor = (props: ITalentEditor) => {
                 return !isNaN(val) || !values.isActive;
             case 'isActive':
                 return typeof val === 'boolean';
+            case 'isMelee':
+                return true;
             default:
                 return val !== null;
         }
     }
 
     const [values, setValues] = useState(props as TalentDraft);
-    const [validObj, setValidObj] = useState({});
+    const [editIcon, setEditIcon] = useState(false);
+    const ref = useRef(null);
+    useOnClickOutside(ref, () => setEditIcon(false));
+    const [validObj, setValidObj] = useState<any>({});
     const dispatch = useDispatch();
+    const { icons } = useSelector(selectTalents);
+
+    const iconThumbnail = icons[values.fileId] ? icons[values.fileId].value : null;
 
     useEffect(() => {
         const obj = {};
@@ -76,7 +91,7 @@ const TalentEditor = (props: ITalentEditor) => {
             obj[k] = checkValidity(k, null);
         }
         setValidObj(obj);
-        console.log(obj);
+        console.log(values);
     }, [values]);
 
     const isValid = () => !Object.values(validObj).includes(false);
@@ -86,6 +101,27 @@ const TalentEditor = (props: ITalentEditor) => {
         switch(e.target.name) {
             case 'isActive':
                 val = e.target.checked;
+                break;
+            case 'isMelee':
+                val = e.target.checked;
+                break;
+            case 'minRange':
+                val = Number(e.target.value);
+                break;
+            case 'maxRange':
+                val = Number(e.target.value);
+                break;
+            case 'cost':
+                val = Number(e.target.value);
+                break;
+            case 'castTime':
+                val = Number(e.target.value);
+                break;
+            case 'cooldown':
+                val = Number(e.target.value);
+                break;
+            case 'charges':
+                val = Number(e.target.value);
                 break;
             default:
                 val = e.target.value;
@@ -112,63 +148,86 @@ const TalentEditor = (props: ITalentEditor) => {
         }
     }
 
+    const remove = () => {
+        dispatch(removeTalent(id));
+        dispatch(setActiveTalent(null));
+    }
+
     return (
         <TalentEditorContainer>
             <TalentEditorBody>
                 <TalentEditorForm flexDirection="column" alignItems="start" spaceBetween={8}>
                     <TalentEditorInvalid>{!valid ? 'Invalid inputs detected.' : null}</TalentEditorInvalid>
                     <TalentEditorField flexDirection="row" spaceBetween={4}>
-                        <TalentEditorFieldLabel required>Talent Name</TalentEditorFieldLabel>
+                        <TalentEditorFieldLabel required valid={validObj.label}>Talent Name</TalentEditorFieldLabel>
                         <TalentEditorFieldTextInput name="label" value={values.label} setValue={changeHandler} />
                     </TalentEditorField>
-                    <TalentEditorField flexDirection="row" spaceBetween={4}>
-                        <TalentEditorFieldLabel>Icon</TalentEditorFieldLabel>
-                        <IconSelector callback={(v) => changeHandler(null, 'fileId', v)} />
+                    <TalentEditorField flexDirection="row" alignItems="start" spaceBetween={4}>
+                        <TalentEditorFieldLabel valid={validObj.fileId}>Icon</TalentEditorFieldLabel>
+                        <PopperTooltip target={<TalentEditorIcon callback={() => setEditIcon(true)}>
+                            <TalentEditorTalent src={iconThumbnail} isActive={values.isActive} />
+                        </TalentEditorIcon>} placement='right-start' showArrow={false} controlShow={true} showPopper={editIcon}>
+                            <div ref={ref}>
+                                <IconSelector selectedId={values.fileId} callback={(v) => changeHandler(null, 'fileId', v)} />
+                            </div>
+                        </PopperTooltip>
                     </TalentEditorField>
                     <TalentEditorField flexDirection="row" spaceBetween={4}>
-                        <TalentEditorFieldLabel>Active</TalentEditorFieldLabel>
+                        <TalentEditorFieldLabel valid={validObj.isActive}>Active</TalentEditorFieldLabel>
                         <TalentEditorFieldCheckbox name="isActive" value={values.isActive ? CHECKED : UNCHECKED} callback={changeHandler} />
                     </TalentEditorField>
                     {values.isActive &&
                         (<>
                         <TalentEditorField flexDirection="row" spaceBetween={4}>
-                            <TalentEditorFieldLabel>Cost</TalentEditorFieldLabel>
-                            <TalentEditorFieldTextInput name="cost" value={values.cost} setValue={changeHandler} />
+                            <TalentEditorFieldLabel valid={validObj.cost}>Cost</TalentEditorFieldLabel>
+                            <TalentEditorFieldTextInput name="cost" type="number" value={values.cost || 0} setValue={changeHandler} />
                         </TalentEditorField>
                         <TalentEditorField flexDirection="row" spaceBetween={4}>
-                            <TalentEditorFieldLabel>Resource</TalentEditorFieldLabel>
-                            <TalentEditorFieldTextInput name="resource" value={values.resource} setValue={changeHandler} />
+                            <TalentEditorFieldLabel valid={validObj.resource}>Resource</TalentEditorFieldLabel>
+                            <TalentEditorFieldTextInput name="resource" value={values.resource || ''} setValue={changeHandler} />
                         </TalentEditorField>
                         <TalentEditorField flexDirection="row" spaceBetween={4}>
-                            <TalentEditorFieldLabel>Minimum Range</TalentEditorFieldLabel>
-                            <TalentEditorFieldTextInput name="minRange" value={values.minRange} setValue={changeHandler} />
+                            <TalentEditorFieldLabel valid={validObj.isMelee}>Melee</TalentEditorFieldLabel>
+                            <TalentEditorFieldCheckbox name="isMelee" value={values.isMelee ? CHECKED : UNCHECKED} callback={changeHandler} />
+                        </TalentEditorField>
+                        {!values.isMelee ? (<>
+                            <TalentEditorField flexDirection="row" spaceBetween={4}>
+                                <TalentEditorFieldLabel valid={validObj.minRange}>Minimum Range</TalentEditorFieldLabel>
+                                <TalentEditorFieldTextInput name="minRange" type="number" value={values.minRange || 0} setValue={changeHandler} />
+                            </TalentEditorField>
+                            <TalentEditorField flexDirection="row" spaceBetween={4}>
+                                <TalentEditorFieldLabel valid={validObj.maxRange}>Maximum Range</TalentEditorFieldLabel>
+                                <TalentEditorFieldTextInput name="maxRange" type="number" value={values.maxRange || 0} setValue={changeHandler} />
+                            </TalentEditorField>
+                        </>).props.children : null}
+                        <TalentEditorField flexDirection="row" spaceBetween={4}>
+                            <TalentEditorFieldLabel valid={validObj.castTime}>Cast Time</TalentEditorFieldLabel>
+                            <TalentEditorFieldTextInput name="castTime" type="number" value={values.castTime || 0} setValue={changeHandler} />
                         </TalentEditorField>
                         <TalentEditorField flexDirection="row" spaceBetween={4}>
-                            <TalentEditorFieldLabel>Maximum Range</TalentEditorFieldLabel>
-                            <TalentEditorFieldTextInput name="maxRange" value={values.maxRange} setValue={changeHandler} />
+                            <TalentEditorFieldLabel valid={validObj.cooldown}>Cooldown</TalentEditorFieldLabel>
+                            <TalentEditorFieldTextInput name="cooldown" type="number" value={values.cooldown || 0} setValue={changeHandler} />
                         </TalentEditorField>
                         <TalentEditorField flexDirection="row" spaceBetween={4}>
-                            <TalentEditorFieldLabel>Cast Time</TalentEditorFieldLabel>
-                            <TalentEditorFieldTextInput name="castTime" value={values.castTime} setValue={changeHandler} />
-                        </TalentEditorField>
-                        <TalentEditorField flexDirection="row" spaceBetween={4}>
-                            <TalentEditorFieldLabel>Cooldown</TalentEditorFieldLabel>
-                            <TalentEditorFieldTextInput name="cooldown" value={values.cooldown} setValue={changeHandler} />
-                        </TalentEditorField>
-                        <TalentEditorField flexDirection="row" spaceBetween={4}>
-                            <TalentEditorFieldLabel>Charges</TalentEditorFieldLabel>
-                            <TalentEditorFieldTextInput name="charges" value={values.charges} setValue={changeHandler} />
+                            <TalentEditorFieldLabel valid={validObj.charges}>Charges</TalentEditorFieldLabel>
+                            <TalentEditorFieldTextInput name="charges" type="number" value={values.charges || 0} setValue={changeHandler} />
                         </TalentEditorField>
                         </>).props.children
                     }
                     <TalentEditorField flexDirection="row" alignItems="start" spaceBetween={4}>
-                        <TalentEditorFieldLabel required>Summary</TalentEditorFieldLabel>
-                        <TalentEditorFieldTextArea rows={6} cols={50} name="summary" value={values.summary} setValue={changeHandler} />
+                        <TalentEditorFieldLabel required valid={validObj.summary}>Summary</TalentEditorFieldLabel>
+                        <TalentEditorFieldTextArea rows={6} cols={50} name="summary" value={values.summary || ''} setValue={changeHandler} />
                     </TalentEditorField>
-                    <TalentEditorPreview {...values}/>
+                    <TalentEditorPreviewWrapper flexDirection="row" alignItems="start" spaceBetween={12}>
+                        <TalentEditorPreviewIconWrapper>
+                            <TalentEditorPreviewIcon src={iconThumbnail} isActive={values.isActive} />
+                        </TalentEditorPreviewIconWrapper>
+                        <TalentEditorPreview {...values}/>
+                    </TalentEditorPreviewWrapper>
                     <TalentEditorActions flexDirection="row" spaceBetween={12}>
                         <TalentEditorButton callback={cancel}>Cancel</TalentEditorButton>
                         <TalentEditorButton disabled={!valid} callback={save}>Save</TalentEditorButton>
+                        <TalentEditorButton callback={remove} isImportant>Delete Permanently</TalentEditorButton>
                     </TalentEditorActions>
                 </TalentEditorForm>
             </TalentEditorBody>
@@ -192,16 +251,42 @@ const TalentEditorInvalid = styled(Subtitle)`
     font-weight: 700;
 `;
 
-const TalentEditorPreview = styled(TalentTooltip)`
-    margin-top: 20px;
-`;
+const TalentEditorPreview = styled(TalentTooltip)``;
 
 const TalentEditorField = styled(FlexContainer)`
     color: ${COLOR.WHITE};
 `;
 
-const TalentEditorFieldLabel = styled(Subtitle)<{ required?: boolean }>`
-    color: inherit;
+const TalentEditorPreviewWrapper = styled(FlexContainer)`
+    margin-top: 20px;
+`;
+
+const TalentEditorPreviewIconWrapper = styled.div`\
+    width: 56px;
+    height: 56px;
+    background: url(https://wow.zamimg.com/images/Icon/large/border/default.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 5px;
+`;
+
+const TalentEditorPreviewIcon = styled(TalentWrapper)``;
+
+const TalentEditorIcon = styled(Button)`
+    width: 40px;
+    height: 40px;
+    background: url(https://wow.zamimg.com/images/Icon/large/border/default.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    padding: 4px;
+`;
+
+const TalentEditorTalent = styled(TalentWrapper)``;
+
+const TalentEditorFieldLabel = styled(Subtitle)<{ required?: boolean; valid: boolean }>`
+    color: ${p => !p.valid ? 'red' : 'inherit'};
     font-weight: 600;
     margin-right: 8px;
 
@@ -230,15 +315,19 @@ const TalentEditorActions = styled(FlexContainer)`
     margin-top: 20px;
 `;
 
-const TalentEditorButton = styled(Button)`
+const TalentEditorButton = styled(Button)<{ isImportant?: boolean; }>`
     ${p => p.disabled ? `opacity: 0.5;` : ''}
     color: ${COLOR.WHITE};
     padding: 2px 12px;
     border-radius: 12px;
     border: 1px solid ${COLOR.WHITE};
 
-    &:hover {
-        color: yellow;
-        border-color: yellow;
-    }
+    ${p => !p.disabled ? `
+        &:hover {
+            color: ${p.isImportant ? 'red' : 'yellow'};
+            border-color: ${p.isImportant ? 'red' : 'yellow'};
+        }
+    ` : `
+        cursor: not-allowed !important;
+    `}
 `;

@@ -9,11 +9,11 @@ interface ITalent extends Talent, BaseComponent {
 }
 
 const Talent = (props: ITalent) => {
-    const { thumbnailUrl} = props;
+    const { thumbnailUrl, className} = props;
 
     return (
-        <PopperTooltip target={<TalentWrapper {...props} src={thumbnailUrl} />} skid={-8} placement={'right-start'} showArrow={false}>
-            <TalentTooltip {...props} />
+        <PopperTooltip target={<TalentWrapper {...props} src={thumbnailUrl} className={className}/>} skid={-8} placement={'right-start'} showArrow={false}>
+            <TalentTooltip {...props} className=''/>
         </PopperTooltip>
     )
 }
@@ -22,10 +22,8 @@ export default Talent;
 
 /*-----------------STYLES-----------------*/
 export const TalentWrapper = styled.div<{ isActive: boolean; src: string; }>`
-    width: 40px;
-    height: 40px;
-    border: 2px solid green;
-    border-radius: ${p => p.isActive ? '0px' : '50%'};
+    width: 100%;
+    height: 100%;
     background: url(${p => p.src});
     background-position: center;
     background-size: contain;
